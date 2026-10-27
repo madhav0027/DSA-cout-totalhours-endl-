@@ -22,6 +22,7 @@ Example:
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 
 /*
 speed = k
@@ -61,6 +62,46 @@ int findmink (vector<int>& a,int h){
         return low;
 }
 
+
+/*
+set h
+s = abcabc
+left = 0
+right = 6
+char = s[0] 
+best = 0
+if(h.find(char) != h.end())
+    h.insert(char)
+else
+    h.erase(h.begin())
+max = (best,h.length())
+
+*/
+
+int findmaxsub(string& s){
+    
+    unordered_set<char> h;
+    
+    int left = 0;
+    int right = 0;
+    int best = 0;
+    
+    while(right < s.length()){
+        char c = s[right];
+        
+        if(h.find(c) != h.end()){
+            h.erase(s[left]);
+            left++;
+        }
+        
+        h.insert(c);
+        best = max(best,static_cast<int>(h.size()));
+        right++;
+    }
+
+    return best;
+}
+
 int main()
 {
 
@@ -68,6 +109,13 @@ int main()
     int hour = 8;
     cout << "Result " << findmink(piles,hour);
 
+    string s = "abcabcabc";
+    cout <<"RESULT " << findmaxsub(s);    
+
 
     return 0;
 }
+
+/*
+Given a string s, find the length of the longest substring without duplicate characters.
+*/
